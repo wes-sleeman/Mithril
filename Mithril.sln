@@ -9,7 +9,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge", "Forge\Forge.csproj", "{58FD1930-6AAD-4AF4-B868-9A6A90F36CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge.Test", "Forge.Test\Forge.Test.csproj", "{7FA7BBB5-EA98-4087-BECC-D0955963ECA6}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58FD1930-6AAD-4AF4-B868-9A6A90F36CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58FD1930-6AAD-4AF4-B868-9A6A90F36CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58FD1930-6AAD-4AF4-B868-9A6A90F36CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58FD1930-6AAD-4AF4-B868-9A6A90F36CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA7BBB5-EA98-4087-BECC-D0955963ECA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA7BBB5-EA98-4087-BECC-D0955963ECA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA7BBB5-EA98-4087-BECC-D0955963ECA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA7BBB5-EA98-4087-BECC-D0955963ECA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

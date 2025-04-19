@@ -55,7 +55,7 @@ TypeDef	::= Modifiers 'type' id '=' TypeExpr ';'
 
 ### Definition Modifiers
 Value and procedure definitions may be modified by placing certain keywords before them.
-Currently, only encapuslation modifiers are specified:
+Currently, only encapsulation modifiers are specified:
 
 ```bnf
 Modifiers	::= Encapsulation
@@ -99,6 +99,10 @@ Note that there is no method of escaping backticks; they MUST NOT occur in an id
 Additionally identifiers not wrapped in backticks are constrained in that they MUST NOT be a valid
 literal as defined below.
 
+The identifiers of public declarations which are also valid identifiers in C MUST NOT be mangled.
+Those identifiers of internal or private declarations or those which are not valid C identifiers
+MAY be mangled in a manner defined by the implementation.
+
 #### Literals
 A literal is either:
 1. An integer numeric value in decimal format.
@@ -114,7 +118,7 @@ literal_, cases 5 & 6 are _boolean literals_, and case 7 is the _poison literal_
 
 Numeric literals MAY be implementation-constrained, but all implementations MUST support at least
 the range from -32,768 to 32,767, inclusive. Implementations SHOULD support the range from
--2,147,483,648 to 2,147,483,647, inclusive. Range-bounds nonwithstanding, integer numeric literals
+-2,147,483,648 to 2,147,483,647, inclusive. Range-bounds notwithstanding, integer numeric literals
 MUST match the regex `-?\d+` and non-integer numeric literals MUST match the regex
 `-?(\d+\.\d*|\.\d+)`.
 
@@ -160,7 +164,7 @@ RecordPatternItem	::= Pattern
 {.bnf}
 
 ### Expressions
-An expression is a _qualified identfier_, a literal, a _procedure call_, a _record expression_, a
+An expression is a _qualified identifier_, a literal, a _procedure call_, a _record expression_, a
 _conditional_, a _map_, or any of the preceding with a type tag.
 
 ```bnf
@@ -370,13 +374,13 @@ refer to themselves (directly or transitively) except through a pointer.
 {.error}
 
 Defined types are available to be referenced anywhere within the file and, if they are public or
-internal, are also available within other files in the program. Public types MUST be layed-out in
+internal, are also available within other files in the program. Public types MUST be laid-out in
 a C ABI compliant representation appropriate to the target platform.
 
 ### Type Inference
 Mithril makes heavy use of type inference to both alleviate developer burden and provide
 compile-time assurances to the developer that the code as written aligns with their intentions.
-All Mithril programs are fully inferrable by design; type annotations give extra assurance and
+All Mithril programs are fully inferable by design; type annotations give extra assurance and
 make portions of the code more human-readable. There is one exception requiring note.
 
 Many developers are accustomed to using full type inference systems in the context of
@@ -385,11 +389,11 @@ languages permit is incompatible with the objective of Mithril as a language; wh
 of code afforded by this is often highly desirable in higher-level, more abstract languages, it is
 fundamentally at odds with the more concrete approach taken here. As such:
 
-> Nonwithstanding the below, it is an ERROR for the type of a top-level declaration to not be fully
+> Notwithstanding the below, it is an ERROR for the type of a top-level declaration to not be fully
 > concretised.
 {.error}
 
-This is a trade-off. Some datastructures such as linked lists lend themselves well to such
+This is a trade-off. Some data structures such as linked lists lend themselves well to such
 polymorphic types. The advantage to this restriction, however, is it means that the type of all
 arguments to a function (and indeed its return type) are known at compile-time and can be laid out
 accordingly. In order to loosen the limitation imposed without compromising on the benefits,
@@ -411,7 +415,7 @@ and MUST be reported to the user.
 ### Pattern Matching
 The other major syntactic convenience offered in Mithril is an extensive use of pattern matching.
 Pattern matching in Mithril only occurs between patterns and values, never between pairs of either.
-The matching of a pattern and value is defined casewise:
+The matching of a pattern and value is defined case-wise:
 1. An identifier bound previously within the pattern matches the value it was bound to.
 1. A discard identifier `_` matches any value with no bindings generated.
 1. An identifier not bound within the pattern matches any value and that value is bound to the
@@ -529,7 +533,7 @@ value.
 > It is an ERROR if the condition of a conditional is not a boolean value.
 {.error}
 
-> It is an INFORMATIONAL DIAGNOSTIC if the condition is reducable to a single boolean value at
+> It is an INFORMATIONAL DIAGNOSTIC if the condition is reducible to a single boolean value at
 > compile-time.
 {.info}
 
@@ -537,7 +541,7 @@ If the condition is evaluated to the boolean true value, the value of the expres
 the value of the consequent. If the condition is evaluated to the boolean false value, the value of
 the expression is the same as the value of the alternative.
 
-> Unless the condition is reducable to a single boolean value at compile-time, it is an ERROR if
+> Unless the condition is reducible to a single boolean value at compile-time, it is an ERROR if
 > the types of the consequent and the alternative do not unify.
 {.error}
 
@@ -566,7 +570,7 @@ implementations MUST define the following _base types_:
 `char`
 `string`
 
-Implementations MAY define additional base types. Type records evaluate to a type that preseves
+Implementations MAY define additional base types. Type records evaluate to a type that preserves
 the order order of their items. Each item's key is preserved verbatim and the associated type
 expression corresponds to the required type of the value correlated to that key. If no key is
 specified, the type corresponds to the required type at that position.
