@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using static LexToken.TokenType;
 
-public partial class Lexing
+public static partial class Lexer
 {
 	public static ImmutableDictionary<int, ImmutableHashSet<LexToken>> Lex(string program)
 	{
@@ -32,6 +32,7 @@ public partial class Lexing
 				(ParenthesisLiteral(), Parenthesis),
 				(CurlyBracketLiteral(), CurlyBracket),
 				(CommaLiteral(), Comma),
+				(DotLiteral(), Dot),
 				(KeywordLiteral(), Keyword),
 				(ModifierLiteral(), Modifier),
 				])
@@ -95,6 +96,9 @@ public partial class Lexing
 	[GeneratedRegex(@"\A,", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline)]
 	private static partial Regex CommaLiteral();
 
+	[GeneratedRegex(@"\A\.", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline)]
+	private static partial Regex DotLiteral();
+
 	[GeneratedRegex(@"\A(let|if|else|map|over|unreachable|return)(?![^\s=.,:;\p{Ps}\p{Pe}\p{Pi}\p{Pf}])", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline)]
 	private static partial Regex KeywordLiteral();
 
@@ -102,6 +106,10 @@ public partial class Lexing
     private static partial Regex ModifierLiteral();
 }
 
+/// <summary>A token produced by the <see cref="Lexer"/>.</summary>
+/// <param name="Type">The token discovered.</param>
+/// <param name="Lexeme">The unmodified lexeme of the token.</param>
+/// <param name="Extents">The extents at which the token was found, including any trailing whitespace.</param>
 public record LexToken(LexToken.TokenType Type, string Lexeme, (int Start, int End) Extents)
 {
 	public enum TokenType
@@ -114,6 +122,7 @@ public record LexToken(LexToken.TokenType Type, string Lexeme, (int Start, int E
 		Parenthesis,
 		CurlyBracket,
 		Comma,
+		Dot,
 		Integer,
 		Decimal,
 		Character,

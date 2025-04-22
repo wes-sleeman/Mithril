@@ -269,25 +269,25 @@ TypeRecordItem	::= TypeExpr
 {.bnf}
 
 ### Blocks
-A block is an ordered collection of blocks, value definitions, and _statements_.
+A block is an ordered collection of blocks and _statements_.
 
 ```bnf
 Block		::= '{' BlockItems '}'
 BlockItems	::= BlockItem BlockItems
 			  | ε
 BlockItem	::= Block
-			  | ValueDef
 			  | Statement
 ```
 {.bnf}
 
 #### Statements
-A statement is either a control-flow statement or an expression terminated by a semicolon. A
+A statement is either a control-flow statement, a value definition, or an expression terminated by a semicolon. A
 control-flow statement is either a _return statement_ or both the keyword `unreachable` and a
 terminating semicolon.
 
 ```bnf
 Statement	::= Expr ';'
+			  | ValueDef
 			  | Return
 			  | 'unreachable' ';'
 ```

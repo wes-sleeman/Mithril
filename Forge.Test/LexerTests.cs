@@ -32,10 +32,11 @@ public class LexerTests
 	[InlineData("poison", Poison)]
 	public void TestSingle(string program, LexToken.TokenType expectedToken)
 	{
-		var result = Lexing.Lex(program);
+		var result = Lexer.Lex(program);
 		var kvp = Assert.Single(result);
 		Assert.Equal(0, kvp.Key);
-		var tokenType = Assert.Single(kvp.Value, static v => v.Type is not Identifier).Type;
+		int maxIdx = kvp.Value.Max(static v => v.Extents.End);
+		var tokenType = Assert.Single(kvp.Value, v => v.Extents.End == maxIdx && v.Type is not Identifier).Type;
 		Assert.Equal(expectedToken, tokenType);
 	}
 
@@ -49,7 +50,7 @@ public class LexerTests
 	[InlineData("`let`")]
 	public void TestSingleIdentifier(string program)
     {
-        var result = Lexing.Lex(program);
+        var result = Lexer.Lex(program);
         var kvp = Assert.Single(result);
         Assert.Equal(0, kvp.Key);
         var tokenType = Assert.Single(kvp.Value).Type;
@@ -61,7 +62,7 @@ public class LexerTests
 	[InlineData("{ string variable = \"This is a test\" : string; }", CurlyBracket, Identifier, Identifier, EqualSign, String, Colon, Identifier, Semicolon, CurlyBracket)]
 	public void TestMultiToken(string program, params LexToken.TokenType[] expectedTokens)
     {
-        var result = Lexing.Lex(program);
+        var result = Lexer.Lex(program);
 		Assert.Equal(expectedTokens.Length, result.Count);
 		LexToken.TokenType[][] tokenSets = [..result.OrderBy(static kvp => kvp.Key).Select(static kvp => kvp.Value.Select(static v => v.Type).ToArray())];
 		
@@ -81,7 +82,7 @@ public class LexerTests
 	[InlineData("internal", Modifier, Identifier)]
 	public void TestAmbiguousToken(string program, params LexToken.TokenType[] options)
 	{
-		var result = Lexing.Lex(program);
+		var result = Lexer.Lex(program);
 		Assert.Equal(0, Assert.Single(result.Keys));
 		var tokenSet = Assert.Single(result.Values);
 		Assert.Equal(options.OrderBy(static o => o.ToString()), tokenSet.Select(static t => t.Type).OrderBy(static o => o.ToString()));
